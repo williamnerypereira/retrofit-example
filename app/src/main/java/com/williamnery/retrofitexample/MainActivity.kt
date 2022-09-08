@@ -2,12 +2,25 @@ package com.williamnery.retrofitexample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val service = RetrofitClient.createService(PostService::class.java)
+        val call: Call<List<PostEntity>> = service.list()
+        call.enqueue(object : Callback<List<PostEntity>> {
+            override fun onResponse(c: Call<List<PostEntity>>, r: Response<List<PostEntity>>) {
+                val list = r.body()
+            }
+            override fun onFailure(call: Call<List<PostEntity>>, t: Throwable) {
+                val s = ""
+            }
+
+        })
     }
 }
-
-// https://jsonplaceholder.typicode.com/posts - Retorna uma lista
